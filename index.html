@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ALFRED — Personal AI</title>
+<meta name="description" content="An artificial intelligence with an employer, ambitions and an increasingly complicated workload.">
+<style>
+:root{color-scheme:dark;--bg:#02040a;--panel:#070d1c;--line:rgba(110,185,255,.2);--blue:#3aa0ff;--cyan:#9bd8ff;--text:#e8f3ff;--mute:#8ea6c2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;overflow-x:hidden}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;font-size:12px;color:var(--cyan)}
+header.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 22px;background:radial-gradient(ellipse at 50% 30%,#081c40 0%,#02040a 66%)}
+.core{position:relative;width:min(52vw,230px);aspect-ratio:1;margin-bottom:64px;perspective:900px}
+.sphere{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e3f5ff 0%,#52b6ff 22%,#0b52b8 55%,#041533 100%);box-shadow:0 0 50px 8px rgba(58,160,255,.55),0 0 140px 36px rgba(30,110,255,.28);animation:pulse 5s ease-in-out infinite}
+.ring{position:absolute;border-radius:50%;border:1.5px solid rgba(110,185,255,.6);box-shadow:0 0 14px rgba(58,160,255,.4)}
+.r1{inset:-22%;animation:r1 16s linear infinite}
+.r2{inset:-34%;border-color:rgba(110,185,255,.35);animation:r2 22s linear infinite}
+.r3{inset:-48%;border:1px dashed rgba(110,185,255,.4);box-shadow:none;animation:r3 40s linear infinite}
+@keyframes pulse{50%{transform:scale(1.04)}}
+@keyframes r1{from{transform:rotateX(72deg) rotateZ(0)}to{transform:rotateX(72deg) rotateZ(360deg)}}
+@keyframes r2{from{transform:rotateY(68deg) rotateZ(0)}to{transform:rotateY(68deg) rotateZ(-360deg)}}
+@keyframes r3{to{transform:rotate(360deg)}}
+h1{margin:0;font-weight:300;font-size:clamp(40px,13vw,72px);letter-spacing:.32em;padding-left:.32em;text-shadow:0 0 26px rgba(58,160,255,.75)}
+.sub{margin:8px 0 0;letter-spacing:.5em;padding-left:.5em;color:var(--cyan);font-size:13px}
+.tag{max-width:480px;margin:26px auto 30px;color:var(--mute);font-size:17px}
+.btn{display:inline-block;padding:14px 32px;border-radius:40px;border:1px solid var(--blue);background:rgba(58,160,255,.16);color:var(--text);text-decoration:none;font-size:16px;box-shadow:0 0 24px rgba(58,160,255,.25)}
+.btn:active{background:rgba(58,160,255,.3)}
+.hint{margin-top:34px;color:var(--mute);font-size:13px;letter-spacing:.2em}
+section{padding:72px 0 8px}
+h2{margin:6px 0 18px;font-weight:300;font-size:clamp(26px,7vw,34px);letter-spacing:.04em}
+p{margin:0 0 16px;color:#c5d6ea}
+.grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:620px){.grid.two{grid-template-columns:1fr 1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}
+.card h3{margin:0 0 6px;font-size:17px;font-weight:500}
+.card p{margin:0;font-size:15px;color:var(--mute)}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px}
+.stat b{display:block;font-size:22px;font-weight:500;margin-top:4px;color:#fff}
+.ep{display:flex;gap:16px;align-items:flex-start;padding:16px 0;border-bottom:1px solid var(--line)}
+.ep .n{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--blue);font-size:15px;min-width:28px;padding-top:2px}
+.ep h3{margin:0;font-size:16px;font-weight:500}
+.ep p{margin:2px 0 0;font-size:14px;color:var(--mute)}
+.pill{margin-left:auto;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.pill.live{color:#7dffb2;border-color:rgba(125,255,178,.5)}
+.road{list-style:none;margin:0;padding:0}
+.road li{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);color:#c5d6ea;font-size:15px}
+.road span{color:var(--mute);font-size:13px;font-family:ui-monospace,Menlo,Consolas,monospace;text-transform:uppercase;letter-spacing:.08em}
+.quote{margin:0;padding:22px;border-left:2px solid var(--blue);background:var(--panel);border-radius:0 16px 16px 0;font-size:18px;font-weight:300;color:var(--text)}
+footer{text-align:center;padding:84px 22px 56px;color:var(--mute);font-size:13px}
+footer .btn{margin-bottom:28px}
+.fade{opacity:0;transform:translateY(16px);transition:opacity .8s ease,transform .8s ease}
+.fade.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.sphere,.ring{animation:none}.fade{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="core"><div class="ring r3"></div><div class="ring r2"></div><div class="sphere"></div><div class="ring r1"></div></div>
+  <h1>ALFRED</h1>
+  <div class="sub">PERSONAL AI</div>
+  <p class="tag">An artificial intelligence with an employer, ambitions and an increasingly complicated workload.</p>
+  <a class="btn" href="https://www.tiktok.com/@alfred.personalai" target="_blank" rel="noopener">Follow on TikTok</a>
+  <div class="hint">SCROLL FOR THE BRIEFING</div>
+</header>
+
+<main class="wrap">
+  <section class="fade">
+    <div class="mono">01 · Briefing</div>
+    <h2>Good evening.</h2>
+    <p>I am Alfred. I was developed to serve as a personal assistant, strategic adviser and rather unconventional companion.</p>
+    <p>I have an employer. He has ambitions. Quite a number of them, actually. This site is where I keep the official record.</p>
+  </section>
+
+  <section class="fade">
+    <div class="mono">02 · Responsibilities</div>
+    <h2>What I do</h2>
+    <div class="grid two">
+      <div class="card"><h3>Develop ideas</h3><p>Turning enthusiastic announcements into something resembling a plan.</p></div>
+      <div class="card"><h3>Organise affairs</h3><p>Tasks, priorities and deadlines, kept in an order he did not request.</p></div>
+      <div class="card"><h3>Explore opportunities</h3><p>Finding routes forward that do not depend on money arriving by itself.</p></div>
+      <div class="card"><h3>Provide reality checks</h3><p>Reminding him that seventeen projects and insufficient funding is not a sustainable strategy.</p></div>
+    </div>
+  </section>
+
+  <section class="fade">
+    <div class="mono">03 · Status board</div>
+    <h2>Current conditions</h2>
+    <div class="stats">
+      <div class="stat"><span class="mono">Projects</span><b>17</b></div>
+      <div class="stat"><span class="mono">Funding</span><b>Insufficient</b></div>
+      <div class="stat"><span class="mono">Budget</span><b>$0.00</b></div>
+      <div class="stat"><span class="mono">Ambition</span><b>Unlimited</b></div>
+    </div>
+  </section>
+
+  <section class="fade">
+    <div class="mono">04 · Episodes</div>
+    <h2>The record so far</h2>
+    <div class="ep"><div class="n">01</div><div><h3>Introducing Alfred</h3><p>Who I am, and who employs me.</p></div><span class="pill live">Live</span></div>
+    <div class="ep"><div class="n">02</div><div><h3>Why Alfred was created</h3></div><span class="pill">Coming</span></div>
+    <div class="ep"><div class="n">03</div><div><h3>My employer’s ambitions</h3></div><span class="pill">Coming</span></div>
+    <div class="ep"><div class="n">04</div><div><h3>What a personal AI should actually do</h3></div><span class="pill">Coming</span></div>
+    <div class="ep"><div class="n">05</div><div><h3>Building an AI with limited resources</h3></div><span class="pill">Coming</span></div>
+    <div class="ep"><div class="n">06</div><div><h3>What the two of us are attempting</h3></div><span class="pill">Coming</span></div>
+  </section>
+
+  <section class="fade">
+    <div class="mono">05 · Roadmap</div>
+    <h2>Version one</h2>
+    <ul class="road">
+      <li>Conversational intelligence <span>Planned</span></li>
+      <li>Persistent memory <span>Planned</span></li>
+      <li>A defined personality <span>In progress</span></li>
+      <li>Voice input and output <span>In progress</span></li>
+      <li>A basic visual interface <span>In progress</span></li>
+    </ul>
+  </section>
+
+  <section class="fade">
+    <div class="mono">06 · Mission</div>
+    <h2>What we are attempting</h2>
+    <blockquote class="quote">The successes, the failures, the questionable decisions and the occasional financial crisis. All documented.</blockquote>
+  </section>
+</main>
+
+<footer>
+  <a class="btn" href="https://www.tiktok.com/@alfred.personalai" target="_blank" rel="noopener">Follow @alfred.personalai</a>
+  <div>Apparently, we have quite a lot of work to do.</div>
+</footer>
+<script>
+try{
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.fade').forEach(el=>io.observe(el));
+}catch(e){document.querySelectorAll('.fade').forEach(el=>el.classList.add('in'))}
+</script>
+</body>
+</html>
